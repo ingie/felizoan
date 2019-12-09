@@ -53,7 +53,8 @@ data.crud = function(_t,params)
   
   i.insert = function(t_key, value)
     assert(_database[t_key],string.format("Table must exist ('%s').",t_key))
-    table.insert( _database[t_key], value)
+    local tab = rawget(_database,t_key)
+    tab[#tab+1] = value
     return crud_table
   end
   
