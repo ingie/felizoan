@@ -7,12 +7,11 @@ function love.conf(t)
     t.externalstorage = false           -- True to save files (and read from the save directory) in external storage on Android (boolean) 
     t.gammacorrect = false              -- Enable gamma-correct rendering, when supported by the system (boolean)
  
- -- 11.0 only   t.audio.mixwithsystem = true        -- Keep background music playing when opening LOVE (boolean, iOS and Android only)
+    t.audio.mixwithsystem = true        -- Keep background music playing when opening LOVE (boolean, iOS and Android only)
  
     t.window.title = "FELIZOAN"         -- The window title (string)
     t.window.icon = nil                 -- Filepath to an image to use as the window's icon (string)
     
-    -- samsung n4 = ( 2560 , 1440 ) / 2.5
 --    t.window.width = 1280                -- The window width (number)
 --    t.window.height = 1024               -- The window height (number)
     t.window.borderless = false         -- Remove all border visuals from the window (boolean)
@@ -29,8 +28,7 @@ function love.conf(t)
     t.window.y = nil                    -- The y-coordinate of the window's position in the specified display (number)
  
 -- 11.0 only    
-    -- commented out for OSX + additional card debug warning suppression
-    t.modules.audio = false             -- Enable the audio module (boolean)
+    t.modules.audio = true             -- Enable the audio module (boolean)
     
     t.modules.data = true               -- Enable the data module (boolean)
     t.modules.event = true              -- Enable the event module (boolean)
