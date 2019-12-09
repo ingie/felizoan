@@ -4,7 +4,8 @@
 
 -- begin library
 --
-local _ing_f = { 
+
+local functional = { 
   _ID = {
   _VERSION = "0.1",
   _NAME = "Functional",
@@ -14,7 +15,7 @@ local _ing_f = {
 }
 
 -- from https://pragprog.com/magazines/2013-05/a-functional-introduction-to-lua
-_ing_f.map = function (things, fn)
+functional.map = function (things, fn)
     local mapped = {}
     for index, thing in pairs(things) do
         mapped[index] = fn(thing)
@@ -24,7 +25,7 @@ end
 
 -- each
 --
-_ing_f.each = function(things, fn)
+functional.each = function(things, fn)
     for i, thing in ipairs(things) do
         fn(thing)
     end
@@ -32,9 +33,9 @@ end
 
 -- filter
 --
-_ing_f.filter = function (things, fn)
+functional.filter = function (things, fn)
     local filtered = {}
-    _ing_f.each(things, function(thing)
+    functional.each(things, function(thing)
         if fn(thing) then
             table.insert(filtered, thing)
         else
@@ -46,24 +47,24 @@ end
 
 -- cons
 --
-_ing_f.cons = function(things, ...)
+functional.cons = function(things, ...)
     local all = {}
-    _ing_f.each({...}, function(t)
+    functional.each({...}, function(t)
         table.insert(all, t)
     end)
-    _ing_f.each(things, function(t)
+    functional.each(things, function(t)
         table.insert(all, t)
     end)
     return all
 end
 --
 
-_ing_f.flatten = function(t) end  
-_ing_f.flatten = function(t)
+functional.flatten = function(t) end  
+functional.flatten = function(t)
   local ret = {}
   for _, v in ipairs(t) do
     if type(v) == 'table' then
-      for _, fv in ipairs(_ing_f.flatten(v)) do
+      for _, fv in ipairs(functional.flatten(v)) do
         ret[#ret + 1] = fv
       end
     else
@@ -74,12 +75,12 @@ _ing_f.flatten = function(t)
 end
 --
 
-_ing_f.curryo = function(func, num_args)
+functional.curryo = function(func, num_args)
   num_args = num_args or debug.getinfo(func, "u").nparams
   if num_args < 2 then return func end
   local function helper(argtrace, n)
     if n < 1 then
-      return func(unpack(_ing_f.flatten(argtrace)))
+      return func(unpack(functional.flatten(argtrace)))
     else
       return function (...)
         return helper({argtrace, ...}, n - select("#", ...))
@@ -93,7 +94,7 @@ end
 -- reverse(...) : take some tuple and return a tuple of	elements in reverse order
 --
 -- e.g.	"reverse(1,2,3)" returns 3,2,1
-_ing_f.reverse = function(...)
+functional.reverse = function(...)
    
    --reverse args by building a function to do it, similar to the unpack() example
    local function reverse_h(acc, v, ...)
@@ -120,7 +121,7 @@ end
 --       partial_dosomething1 = curried_dosomething (a_value) -- returns a function
 --       partial_dosomething2 = partial_dosomething1 (b_value) -- returns a function
 --       partial_dosomething2 (c_value) -- returns the result of dosomething(a_value, b_value, c_value)
-_ing_f.curry = function(func, num_args)
+functional.curry = function(func, num_args)
   
    -- currying 2-argument functions seems to be the most popular application
    num_args = num_args or 2
@@ -129,7 +130,7 @@ _ing_f.curry = function(func, num_args)
    local function curry_h(argtrace, n)
       if 0 == n then
       	 -- reverse argument list and call function
-         return func(_ing_f.reverse(argtrace()))
+         return func(functional.reverse(argtrace()))
       else
          -- "push" argument (by building a wrapper function) and decrement n
          return function (onearg)
@@ -155,4 +156,4 @@ end
 
 
 
-return _ing_f
+return functional

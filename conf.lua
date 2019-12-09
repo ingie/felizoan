@@ -28,7 +28,8 @@ function love.conf(t)
     t.window.y = nil                    -- The y-coordinate of the window's position in the specified display (number)
  
 -- 11.0 only    
-    t.modules.audio = true             -- Enable the audio module (boolean)
+    -- temporary disabled for debugging log
+    t.modules.audio = false             -- Enable the audio module (boolean)
     
     t.modules.data = true               -- Enable the data module (boolean)
     t.modules.event = true              -- Enable the event module (boolean)
