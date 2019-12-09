@@ -41,7 +41,9 @@ local log_file;
 
 
 --print(log_file:close())
---io.stdout:setvbuf("no")
+if logger.logging then
+  io.stdout:setvbuf("no")
+end 
 local log_write = function(...)
   if log_file then
     log_file:write(...)
@@ -67,12 +69,12 @@ local caller_info = function(_level)
   if not debug or not debug.getinfo then return "UNKNOWN",0 end
   local i = debug.getinfo(_level,"Sl")
   local _file, _line = i.short_src and i.short_src or "UNKNOWN", i.currentline and i.currentline or 0
-  return string.format("[%20s : %4d ]", string.sub(_file,-20), _line)
+  return string.format("[%30s : %4d ]", string.sub(_file,-30), _line)
 end
 
 local write_io = function(_type,_text,_ci)
   local _tt = string.sub( (_type and _type or "").."      " ,1,6) 
-  log_write(string.format( _tt ..": %20s %s\t%s\n", log_date(), _ci or caller_info(5) or "",_text )..ANSI("0;37;"))  
+  log_write(string.format( _tt ..": %20s %s\t%s\n", log_date(), _ci or caller_info(4) or "",_text )..ANSI("0;37;"))  
 end
 
 local write_trace = function(_mode, _text, _ci)

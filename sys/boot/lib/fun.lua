@@ -27,22 +27,24 @@ end
 --
 functional.each = function(things, fn)
     for i, thing in ipairs(things) do
-        fn(thing)
+        fn(thing, i)
     end
 end
 
 -- filter
 --
 functional.filter = function (things, fn)
-    local filtered = {}
-    functional.each(things, function(thing)
-        if fn(thing) then
-            table.insert(filtered, thing)
-        else
-          --print("nope",thing.name)
-        end 
-    end)
-    return filtered
+  local filtered = {}
+  local index = {}
+  functional.each(things, function(thing, thingdex)
+      if fn(thing) then
+          table.insert(filtered, thing)
+          table.insert(index,thingdex)
+      else
+        --print("nope",thing.name)
+      end 
+  end)
+  return filtered, index
 end
 
 -- cons
